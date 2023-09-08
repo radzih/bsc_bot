@@ -1,8 +1,8 @@
 from aiogram import Bot, Dispatcher
-from project.config import configure_logging, load_config
-from project.infra.db.main import create_connection_url, create_session_factory
-from project.present.bot.handlers.setup import include_routers
-from project.present.bot.middlewares.setup import setup_middlewares
+from app.config import configure_logging, load_config
+from app.infra.db.main import create_connection_url, create_session_factory
+from app.present.bot.handlers.setup import include_routers
+from app.present.bot.middlewares.setup import setup_middlewares
 
 
 async def main() -> None:
