@@ -20,6 +20,7 @@ services:
     volumes:
       - ./Makefile:/app/Makefile
       - ./.env.test:/app/.env.test
+      - ./app:/app/app
     depends_on:
       - db
     command: ["make", "test-bot"]
