@@ -10,6 +10,12 @@ class UserDTO:
     wallet: str | None = None
 
 
+@dataclass
+class UserUpdate:
+    id: int
+    name: str | None = None
+    wallet: str | None = None
+
 
 @dataclass
 class UserCreate:

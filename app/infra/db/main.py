@@ -46,17 +46,20 @@ class DbGateway:
             return False
         return True
 
-    async def subscribe_user(self, user_id: int) -> None:
+    async def update_user(
+        self, user_id: int, name: str | None = None, wallet: str | None = None
+    ) -> bool:
         user = await self._session.get(User, user_id)
-        user.subscribed = True
+        if not user:
+            return False
+
+        if name:
+            user.name = name
+        if wallet:
+            user.wallet = wallet
 
         self._session.add(user)
-
-    async def unsubscribe_user(self, user_id: int) -> None:
-        user = await self._session.get(User, user_id)
-        user.subscribed = False
-
-        self._session.add(user)
+        return True
 
     async def get_user(self, user_id: int) -> UserDTO | None:
         user = await self._session.get(User, user_id)
