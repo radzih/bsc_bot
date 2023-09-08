@@ -7,6 +7,8 @@ class UserDTO:
     id: int
     name: str
     created_time: datetime
+    wallet: str | None = None
+
 
 
 @dataclass

@@ -3,9 +3,10 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.ext.asyncio.session import async_sessionmaker
 
+from app.core.user.dto import UserDTO
+
 from .config import Database
 from .models import User
-from app.core.user.dto import UserDTO
 
 
 def create_connection_url(db: Database, async_: bool = False) -> URL:
@@ -64,25 +65,20 @@ class DbGateway:
         return UserDTO(
             id=user.id,
             name=user.name,
-            created_date=user.created_date,
-            subscribed=user.subscribed,
+            created_time=user.created_time,
+            wallet=user.wallet,
         )
 
-    async def get_users(
-        self, is_subscribed: bool | None = None
-    ) -> list[UserDTO]:
+    async def get_users(self) -> list[UserDTO]:
         query = select(User)
-
-        if is_subscribed is not None:
-            query = query.where(User.subscribed == is_subscribed)
 
         users = await self._session.execute(query)
         return [
             UserDTO(
                 id=user.id,
                 name=user.name,
-                created_date=user.created_date,
-                subscribed=user.subscribed,
+                created_time=user.created_time,
+                wallet=user.wallet,
             )
             for user in users.scalars()
         ]

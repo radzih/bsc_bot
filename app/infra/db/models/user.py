@@ -12,3 +12,4 @@ class User(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str]
     created_time: Mapped[datetime] = mapped_column(default=func.now())
+    wallet: Mapped[str] = mapped_column(default=None)
