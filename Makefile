@@ -1,6 +1,8 @@
 py := poetry run
 python := $(py) python
 
+dirs = tests app
+
 .ONESHELL:
 
 define setup_env
@@ -12,8 +14,8 @@ endef
 
 .PHONY: reformat
 reformat:
-	poetry run black app
-	poetry run isort app
+	poetry run black $(dirs)
+	poetry run isort $(dirs)
 
 .PHONY: dev-bot
 dev-bot:
@@ -33,3 +35,21 @@ dev-migrate:
 dev-env:
 	$(call setup_env, .env.dev)
 	$(filter-out $@,$(MAKECMDGOALS))
+
+.PHONY: test-bot
+test-bot:
+	$(call setup_env, .env.test)
+	python -m app.present.bot
+
+.PHONY: test-docker
+test-docker:
+	docker compose -f=docker-compose-test.yml --env-file=.env.test up
+
+.PHONY: test-docker-build
+test-docker-build:
+	docker compose -f=docker-compose-test.yml --env-file=.env.test up --build
+
+.PHONY: tests
+tests:
+	$(call setup_env, .env.test)
+	$(python) -m pytest --disable-warnings 
