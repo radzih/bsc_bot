@@ -18,7 +18,7 @@ def load_config():
     return Config(
         tg_bot=load_bot_config(),
         db=load_db_config(),
-        debug=True,
+        debug=True, # TODO: fix
     )
 
 

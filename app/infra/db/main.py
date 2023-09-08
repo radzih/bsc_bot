@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio.session import async_sessionmaker
 
 from .config import Database
 from .models import User
-from .models.user import UserDTO
+from app.core.user.dto import UserDTO
 
 
 def create_connection_url(db: Database, async_: bool = False) -> URL:
@@ -26,7 +26,7 @@ def create_session_factory(
     return async_sessionmaker(bind=engine, class_=AsyncSession)
 
 
-class DBGateway:
+class DbGateway:
     def __init__(self, session: AsyncSession) -> None:
         self._session = session
 
