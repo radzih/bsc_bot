@@ -1,4 +1,5 @@
 from aiogram import Bot, Dispatcher
+
 from app.config import configure_logging, load_config
 from app.infra.db.main import create_connection_url, create_session_factory
 from app.present.bot.handlers.setup import include_routers
