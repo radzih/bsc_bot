@@ -17,3 +17,26 @@ WALLET_INPUT_ERROR_MESSAGE = (
 WALLET_INPUT_SUCCESS_MESSAGE = "Гаманець успішно додано.\n"
 
 SETTINGS_MESSAGE = "Тут ти можеш налаштувати бота.\n"
+
+TRANSACTION_BUTTON = "Транзакція {short_hash}\n"
+
+TRANSACTION_LIST_MESSAGE = "Список транзакцій:\n"
+
+TRANSACTION_MESSAGE = (
+    "Транзакція: {hash}\n"
+    "Кількість: {amount_in_bnb} BNB({amount_in_usd}$))\n"
+    "Тип: {type}\n"
+    "Дата: {date}\n"
+    "Статус: {status}\n"
+)
+TYPE_TO_UK = {
+    "deposit": "Депозит",
+    "withdraw": "Виведення",
+    "mint": "Мінт",
+    "approve": "Апрув",
+    "other": "Інша транзакція",
+}
+STATUS_TO_UK = {
+    "success": "Успішно",
+    "error": "Помилка",
+}

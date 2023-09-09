@@ -5,6 +5,7 @@ from aiogram.types import TelegramObject
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from app.config import Config
+from app.core.transaction.interactor import ListTransactions
 from app.core.user.interactor import CreateUser, UpdateUser
 from app.core.wallet.interactor import IsValidWallet
 from app.infra.bscscan.main import BSCScanAdapter
@@ -35,6 +36,7 @@ class InteractorMiddleware(BaseMiddleware):
         data["create_user"] = CreateUser(db)
         data["update_user"] = UpdateUser(db)
         data["is_valid_wallet"] = IsValidWallet(bscscan)
+        data["list_transactions"] = ListTransactions(db, bscscan)
 
         await handler(event, data)
         await db_session.close()
