@@ -38,6 +38,8 @@ class InteractorMiddleware(BaseMiddleware):
         data["is_valid_wallet"] = IsValidWallet(bscscan)
         data["list_transactions"] = ListTransactions(db, bscscan)
 
-        await handler(event, data)
-        await db_session.close()
-        await bscscan.session.close()
+        try:
+            await handler(event, data)
+        finally:
+            await db_session.close()
+            await bscscan.session.close()
