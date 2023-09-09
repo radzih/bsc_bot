@@ -18,10 +18,6 @@ WALLET_INPUT_SUCCESS_MESSAGE = "Гаманець успішно додано.\n"
 
 SETTINGS_MESSAGE = "Тут ти можеш налаштувати бота.\n"
 
-TRANSACTION_BUTTON = "Транзакція {short_hash}\n"
-
-TRANSACTION_LIST_MESSAGE = "Список транзакцій:\n"
-
 TRANSACTION_MESSAGE = (
     "Транзакція: {hash}\n"
     "Кількість: {amount_in_bnb} BNB({amount_in_usd}$))\n"
