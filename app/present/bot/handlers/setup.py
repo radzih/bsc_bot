@@ -1,9 +1,10 @@
 from aiogram import Dispatcher
 
-from . import settings, start, wallet
+from . import settings, start, transactions, wallet
 
 
 def include_routers(dp: Dispatcher):
     dp.include_router(start.router)
     dp.include_router(wallet.router)
     dp.include_router(settings.router)
+    dp.include_router(transactions.router)
