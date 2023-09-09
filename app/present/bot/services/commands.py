@@ -2,6 +2,7 @@ from aiogram import Bot
 from aiogram.types import BotCommand, BotCommandScopeDefault
 
 start = BotCommand(command="start", description="Start bot")
+settings = BotCommand(command="settings", description="Settings")
 
 commands = [start]
 
