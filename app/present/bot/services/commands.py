@@ -3,8 +3,11 @@ from aiogram.types import BotCommand, BotCommandScopeDefault
 
 start = BotCommand(command="start", description="Start bot")
 settings = BotCommand(command="settings", description="Settings")
+transactions = BotCommand(
+    command="transactions", description="Show income transactions"
+)
 
-commands = [start]
+commands = [transactions, settings]
 
 
 async def set_commands(bot: Bot, user_id: int) -> None:
