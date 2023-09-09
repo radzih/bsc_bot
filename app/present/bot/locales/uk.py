@@ -16,8 +16,9 @@ WALLET_INPUT_ERROR_MESSAGE = (
 )
 WALLET_INPUT_SUCCESS_MESSAGE = (
     "Гаманець успішно додано.\n"
-    "Змінити гаманець можна в налаштуваннях."
+    "Змінити гаманець можна в налаштуваннях(/settings)."
 )
+WALLET_NOT_SET_MESSAGE = "Гаманець не додано.\n"
 
 SETTINGS_MESSAGE = "Тут ти можеш налаштувати бота.\n"
 

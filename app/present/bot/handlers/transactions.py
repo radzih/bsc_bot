@@ -2,11 +2,13 @@ from math import ceil
 
 from aiogram import F, Router
 from aiogram.filters import Command
+from aiogram.filters.exception import ExceptionTypeFilter
 from aiogram.fsm.context import FSMContext
-from aiogram.types import CallbackQuery, Message, User
+from aiogram.types import CallbackQuery, ErrorEvent, Message, User
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from app.core.transaction.dto import TransactionDTO, TransactionsList
+from app.core.transaction.exception import WalletNotSet
 from app.core.transaction.interactor import ListTransactions
 from app.present.bot import locales
 from app.present.bot.keyboards.inline import button, callback
@@ -26,8 +28,6 @@ async def show_transactions(
     user: User,
     state: FSMContext,
 ) -> None:
-    await message.delete()
-
     transactions = await list_transactions(
         TransactionsList(user_id=user.id, page=FIRST_PAGE, per_page=PER_PAGE)
     )
@@ -74,6 +74,22 @@ async def show_transaction_call(
     await call.message.edit_text(
         text=text,
         reply_markup=keyboard,
+    )
+
+
+@router.error(
+    ExceptionTypeFilter(WalletNotSet), F.update.message.as_("message")
+)
+async def wallet_not_set_error(
+    event: ErrorEvent,
+    message: Message,
+) -> None:
+    builder = InlineKeyboardBuilder()
+    builder.add(button.send_wallet_address)
+
+    await message.answer(
+        text=locales.uk.WALLET_NOT_SET_MESSAGE,
+        reply_markup=builder.as_markup(),
     )
 
 
