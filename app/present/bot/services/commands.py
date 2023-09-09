@@ -2,9 +2,9 @@ from aiogram import Bot
 from aiogram.types import BotCommand, BotCommandScopeDefault
 
 start = BotCommand(command="start", description="Start bot")
-settings = BotCommand(command="settings", description="Settings")
+settings = BotCommand(command="settings", description="Налаштування")
 transactions = BotCommand(
-    command="transactions", description="Show income transactions"
+    command="transactions", description="Показати транзакції"
 )
 
 commands = [transactions, settings]
