@@ -20,7 +20,7 @@ async def main() -> None:
     setup_middlewares(dp, session_factory)
 
     try:
-        await dp.start_polling(bot)
+        await dp.start_polling(bot, config=config)
     except KeyboardInterrupt:
         pass
 
