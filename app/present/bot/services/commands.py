@@ -1,5 +1,9 @@
 from aiogram import Bot
-from aiogram.types import BotCommand, BotCommandScopeDefault
+from aiogram.types import (
+    BotCommand,
+    BotCommandScopeChat,
+    BotCommandScopeDefault,
+)
 
 start = BotCommand(command="start", description="Start bot")
 settings = BotCommand(command="settings", description="Налаштування")
@@ -12,3 +16,6 @@ commands = [transactions, settings]
 
 async def set_commands(bot: Bot, user_id: int) -> None:
     await bot.set_my_commands(commands, scope=BotCommandScopeDefault())
+    await bot.set_my_commands(
+        commands, scope=BotCommandScopeChat(chat_id=user_id)
+    )
