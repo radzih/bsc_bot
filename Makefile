@@ -20,7 +20,7 @@ reformat:
 .PHONY: dev-bot
 dev-bot:
 	$(call setup_env, .env.dev)
-	PYTHONPATH=./src $(python) -m project.present.bot
+	$(python) -m app.present.bot
 
 .PHONY: dev-docker
 dev-docker:
@@ -29,27 +29,14 @@ dev-docker:
 .PHONY: dev-migrate
 dev-migrate:
 	$(call setup_env, .env.dev)
-	PYTHONPATH=./src $(py) alembic upgrade head
+	$(py) alembic upgrade head
 
 .PHONY: dev-env
 dev-env:
 	$(call setup_env, .env.dev)
 	$(filter-out $@,$(MAKECMDGOALS))
 
-.PHONY: test-bot
-test-bot:
-	$(call setup_env, .env.test)
-	python -m app.present.bot
-
-.PHONY: test-docker
-test-docker:
-	docker compose -f=docker-compose-test.yml --env-file=.env.test up
-
-.PHONY: test-docker-build
-test-docker-build:
-	docker compose -f=docker-compose-test.yml --env-file=.env.test up --build
-
 .PHONY: tests
 tests:
 	$(call setup_env, .env.test)
-	$(python) -m pytest --disable-warnings 
+	$(python) -m pytest
