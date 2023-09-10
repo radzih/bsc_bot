@@ -30,4 +30,4 @@ COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 RUN apt-get update && apt-get install -y curl make
 
 WORKDIR /app/
-COPY . /app
+COPY ./app /app/app

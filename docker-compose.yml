@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  db-migration:
+    container_name: db-migration-bsc_bot
+    build:
+      context: .
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - db-network-bsc_bot
+    volumes:
+      - ./.env:/app/.env
+      - ./alembic.ini:/app/alembic.ini:ro
+      - ./Makefile:/app/Makefile
+      - ./app/infra/db/alembic/versions:/app/app/infra/db/alembic/versions:ro
+    command: ["make", "prod-migrate"]
+  db:
+    image: postgres:15-alpine
+    container_name: db-bsc_bot
+    hostname: "${DB_HOST}"
+    restart: "unless-stopped"
+    networks:
+      - db-network-bsc_bot
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    expose:
+      - ${DB_PORT}
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${DB_USER}", "-d", "${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  bot:
+    container_name: bot-bsc_bot
+    build:
+      context: .
+    restart: unless-stopped
+    volumes:
+      - ./Makefile:/app/Makefile
+      - ./.env:/app/.env
+    depends_on:
+      db:
+        condition: service_healthy
+      db-migration:
+        condition: service_completed_successfully
+    networks:
+      - db-network-bsc_bot
+    command: ["make", "prod-bot"]
+      
+networks:
+  db-network-bsc_bot: {}
