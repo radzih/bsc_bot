@@ -36,6 +36,16 @@ dev-env:
 	$(call setup_env, .env.dev)
 	$(filter-out $@,$(MAKECMDGOALS))
 
+.PHONY: prod-bot
+prod-bot:
+	$(call setup_env, .env)
+	python -m app.present.bot
+
+.PHONY: prod-migrate
+prod-migrate:
+	$(call setup_env, .env)
+	python -m alembic upgrade head
+
 .PHONY: tests
 tests:
 	$(python) -m pytest
