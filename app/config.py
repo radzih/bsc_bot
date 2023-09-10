@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from logging import DEBUG, INFO, basicConfig
+from os import environ
 
 from app.infra.bscscan.config import BSCScan
 from app.infra.bscscan.config import load_config as load_bscscan_config
@@ -22,7 +23,7 @@ def load_config():
         tg_bot=load_bot_config(),
         db=load_db_config(),
         bscscan=load_bscscan_config(),
-        debug=True,  # TODO: fix
+        debug=environ.get("DEBUG", False) == "True",
     )
 
 
