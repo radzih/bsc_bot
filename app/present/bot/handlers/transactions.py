@@ -16,7 +16,7 @@ from app.present.bot.services import commands
 
 router = Router()
 
-PER_PAGE = 10000
+PER_PAGE = 500
 FIRST_INDEX = 0
 FIRST_PAGE = 0
 
@@ -44,11 +44,14 @@ async def show_transactions(
 
 
 @router.callback_query(
-    F.from_user.as_("user"), callback.TransactionIndex.filter()
+    F.from_user.as_("user"),
+    callback.TransactionIndex.filter(),
+    F.message.as_("message"),
 )
 async def show_transaction_call(
     call: CallbackQuery,
     list_transactions: ListTransactions,
+    message: Message,
     user: User,
     callback_data: callback.TransactionIndex,
     state: FSMContext,
@@ -56,6 +59,15 @@ async def show_transaction_call(
     await call.answer()
 
     state_data = await state.get_data()
+
+    if not state_data.get("transactions"):
+        await message.delete()
+        return await show_transactions(
+            message=message,
+            list_transactions=list_transactions,
+            user=user,
+            state=state,
+        )
     transactions: list[TransactionDTO] = state_data["transactions"]
 
     if callback_data.index == len(transactions) - 1:
@@ -64,6 +76,7 @@ async def show_transaction_call(
             old_transactions=transactions,
             user=user,
             state=state,
+            offset=PER_PAGE,
             page=ceil(callback_data.index + 1 / PER_PAGE),
         )
 
@@ -71,7 +84,7 @@ async def show_transaction_call(
     text = transaction_text(transaction)
     keyboard = transaction_keyboard(callback_data.index, len(transactions) - 1)
 
-    await call.message.edit_text(
+    await message.edit_text(
         text=text,
         reply_markup=keyboard,
     )
