@@ -38,5 +38,4 @@ dev-env:
 
 .PHONY: tests
 tests:
-	$(call setup_env, .env.test)
 	$(python) -m pytest
